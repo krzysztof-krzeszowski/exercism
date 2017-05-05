@@ -12,12 +12,18 @@ defmodule Raindrops do
   @factors [{3, "Pling"}, {5, "Plang"}, {7, "Plong"}]
 
   @spec convert(pos_integer) :: String.t
-  def convert(_number) do
-      check @factors
+  def convert(number) do
+      c = check(@factors, number)
+      if c == "", do: to_string(number), else: c
   end
 
-  defp check([]), do: []
-  defp check([h | t]) do
-    [h] ++ check(t)
+  defp check([], _), do: ""
+  defp check([h | t], number) do
+    {fac, txt} = h
+    if rem(number, fac) == 0 do
+      txt <> check(t, number)
+    else
+      "" <> check(t, number)
+    end
   end
 end
